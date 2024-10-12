@@ -1,7 +1,9 @@
 local M = {}
 
 function M.say_hello ()
-  print("Hello, World!")
+  local hello_file = '~/hello.md'
+
+  vim.cmd("edit " .. hello_file)
 end
 
 function M.setup(opts)
