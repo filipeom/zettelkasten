@@ -11,8 +11,9 @@ end
 
 function M.new_note()
   local home = M.opts.home
+  local suffix = vim.fn.input("Note suffix: ")
   local datetime = os.date('%Y%m%dT%H%M%S')
-  local filename = home .. '/' .. datetime .. '.md'
+  local filename = home .. '/' .. datetime .. '-' .. suffix .. '.md'
   vim.cmd('edit ' .. filename)
 end
 
