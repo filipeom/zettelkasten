@@ -11,9 +11,30 @@ end
 
 function M.new_note()
   local home = M.opts.home
-  local suffix = vim.fn.input("Note suffix: ")
+  local name  = vim.fn.input("Note name: ")
   local datetime = os.date('%Y%m%dT%H%M%S')
-  local filename = home .. '/' .. datetime .. '-' .. suffix .. '.md'
+  local filename = home .. '/' .. name .. '.md'
+
+  -- Attempt to create the file if it does not exist
+  local file, err = io.open(filename, "r")
+  if file then
+    file:close()
+    print("Error: Note file already exists: " .. filename)
+    return
+  end
+
+  file, err = io.open(filename, "w")
+  if not file then
+    print("Error: Could not create note file at " .. filename .. ": " .. err)
+    return
+  end
+
+  -- Write metadata
+  file:write("---\n")
+  file:write("datetime: " .. datetime .. "\n")
+  file:write("---\n\n")
+  file:close()
+
   vim.cmd('edit ' .. filename)
 end
 
